@@ -145,16 +145,16 @@ async function run() {
 
     if (executionRoleArn){
       // If executionRole is missing, create it
-      if (!containerDef.executionRoleArn) { containerDef.executionRoleArn = {} }
+      if (!taskDefContents.executionRoleArn) { taskDefContents.executionRoleArn = {} }
 
-      containerDef.executionRoleArn = executionRoleArn;
+      taskDefContents.executionRoleArn = executionRoleArn;
     }
 
     if (taskRoleArn){
       // If taskRole is missing, create it
-      if (!containerDef.taskRoleArn) { containerDef.taskRoleArn = {} }
+      if (!taskDefContents.taskRoleArn) { taskDefContents.taskRoleArn = {} }
 
-      containerDef.taskRoleArn = taskRoleArn;
+      taskDefContents.taskRoleArn = taskRoleArn;
     }
 
     // Write out a new task definition file
