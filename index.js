@@ -11,11 +11,12 @@ async function run() {
     const imageURI = core.getInput('image', { required: true });
     const environmentVariables = core.getInput('environment-variables', { required: false });
     const envFiles = core.getInput('env-files', { required: false });
-
     const logConfigurationLogDriver = core.getInput("log-configuration-log-driver", { required: false });
     const logConfigurationOptions = core.getInput("log-configuration-options", { required: false });
     const dockerLabels = core.getInput('docker-labels', { required: false });
     const command = core.getInput('command', { required: false });
+    const executionRoleArn = core.getInput('execution-role-arn', { required: false });
+    const taskRoleArn = core.getInput('task-role-arn', { required: false });
 
     // Parse the task definition
     const taskDefPath = path.isAbsolute(taskDefinitionFile) ?
@@ -134,6 +135,22 @@ async function run() {
         }
       })
     }
+
+    if (executionRoleArn){
+      // If executionRole is missing, create it
+      if (!containerDef.executionRoleArn) { containerDef.executionRoleArn = {} }
+
+      containerDef.executionRoleArn = executionRoleArn;
+    }
+
+    if (taskRoleArn){
+      // If taskRole is missing, create it
+      if (!containerDef.taskRoleArn) { containerDef.taskRoleArn = {} }
+
+      containerDef.taskRoleArn = taskRoleArn;
+    }
+
+
 
     // Write out a new task definition file
     var updatedTaskDefFile = tmp.fileSync({
